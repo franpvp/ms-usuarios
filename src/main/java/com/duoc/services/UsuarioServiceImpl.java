@@ -68,17 +68,12 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public UsuarioDTO modificarUsuario(Long id, UsuarioDTO nuevoUsuarioDTO) {
+    public UsuarioDTO modificarUsuario(UsuarioDTO nuevoUsuarioDTO) {
 
-        if (id <= 0) {
-            throw new UsuarioBadRequestException("El ID del usuario no puede ser negativo: " + id);
-        }
-
-        return usuarioRepository.findById(id)
+        return usuarioRepository.findById(nuevoUsuarioDTO.getId())
                 .map(usuarioEntity -> {
                     usuarioEntity.setUsername(nuevoUsuarioDTO.getUsername());
                     usuarioEntity.setEmail(nuevoUsuarioDTO.getEmail());
-                    usuarioEntity.setRole(nuevoUsuarioDTO.getRole());
                     usuarioEntity.setNombre(nuevoUsuarioDTO.getNombre());
                     usuarioEntity.setApellidoPaterno(nuevoUsuarioDTO.getApellidoPaterno());
                     usuarioEntity.setEdad(nuevoUsuarioDTO.getEdad());
@@ -87,7 +82,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                     UsuarioEntity usuarioEntityModificado = usuarioRepository.save(usuarioEntity);
                     return usuarioMapper.usuarioEntityToUsuarioDto(usuarioEntityModificado);
                 })
-                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con ID: " + id));
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con ID: " + nuevoUsuarioDTO.getId()));
     }
 
     @Override

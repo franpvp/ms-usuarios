@@ -43,12 +43,11 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioCreado, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id-usuario}")
+    @PutMapping
     public ResponseEntity<UsuarioDTO> modificarUsuario(
-            @PathVariable("id-usuario") Long idUsuario,
             @RequestBody UsuarioDTO nuevoUsuarioDTO
     ) {
-        UsuarioDTO usuarioDTOModificado = usuarioService.modificarUsuario(idUsuario, nuevoUsuarioDTO);
+        UsuarioDTO usuarioDTOModificado = usuarioService.modificarUsuario(nuevoUsuarioDTO);
 
         return new ResponseEntity<>(usuarioDTOModificado, HttpStatus.CREATED);
     }
