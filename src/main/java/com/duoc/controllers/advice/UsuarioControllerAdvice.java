@@ -1,6 +1,7 @@
 package com.duoc.controllers.advice;
 
 import com.duoc.dto.ErrorResponse;
+import com.duoc.exceptions.PasswordException;
 import com.duoc.exceptions.UsuarioDuplicadoException;
 import com.duoc.exceptions.UsuarioNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,14 @@ public class UsuarioControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse manejarUsuarioDuplicado(UsuarioDuplicadoException ex){
         log.error("Nombre de usuario ya se encuentra en uso : {}", ex.getMessage());
+
+        return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+    }
+
+    @ExceptionHandler(PasswordException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse manejarPasswordIncorrecta(PasswordException ex){
+        log.error("Contraseña incorrecta : {}", ex.getMessage());
 
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
     }

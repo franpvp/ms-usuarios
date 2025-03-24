@@ -49,4 +49,7 @@ public class UsuarioDTO {
 
     @NotNull(message = "El campo fechaNacimiento no puede estar vacío")
     private Date fechaNacimiento;
+
+    @NotNull(message = "El campo isLoggedIn no puede estar vacío")
+    private boolean isLoggedIn = false;
 }

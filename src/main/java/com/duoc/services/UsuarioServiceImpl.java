@@ -1,11 +1,9 @@
 package com.duoc.services;
 
+import com.duoc.dto.LoginDTO;
 import com.duoc.dto.UsuarioDTO;
 import com.duoc.enums.UserRole;
-import com.duoc.exceptions.IllegalNumberException;
-import com.duoc.exceptions.UsuarioBadRequestException;
-import com.duoc.exceptions.UsuarioDuplicadoException;
-import com.duoc.exceptions.UsuarioNotFoundException;
+import com.duoc.exceptions.*;
 import com.duoc.mapper.UsuarioMapper;
 import com.duoc.model.UsuarioEntity;
 import com.duoc.repositories.UsuarioRepository;
@@ -87,6 +85,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public void eliminarUsuarioById(Long id) {
+
         if (id < 0) {
             throw new UsuarioBadRequestException("El ID del usuario no puede ser negativo: " + id);
         }
@@ -98,19 +97,37 @@ public class UsuarioServiceImpl implements UsuarioService{
         usuarioRepository.deleteById(id);
     }
 
-    // Registro y Autenticación de Usuarios
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        UsuarioEntity usuario = usuarioRepository.findByUsername(username)
-//                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-//
-//        return new User(usuario.getUsername(), usuario.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_" + usuario.getRole())));
-//    }
-
 
     // Validar si el usuario existe
     public boolean usuarioExiste(Long idUsuario) {
         return usuarioRepository.existsById(idUsuario);
+    }
+
+    public String login(LoginDTO loginDTO) {
+        // Buscar usuario por username
+        UsuarioEntity usuario = usuarioRepository.findByUsername(loginDTO.getUsername())
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado"));
+
+        // Verificar si la contraseña coincide (sin encriptación)
+        if (!usuario.getPassword().equals(loginDTO.getPassword())) {
+            throw new PasswordException("Contraseña incorrecta");
+        }
+
+        // Actualizar estado de sesión
+        usuario.setLoggedIn(true);
+        usuarioRepository.save(usuario);
+
+        return "Usuario " + usuario.getUsername() + " ha iniciado sesión exitosamente.";
+    }
+
+    public String logout(String username) {
+        UsuarioEntity usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado"));
+
+        usuario.setLoggedIn(false);
+        usuarioRepository.save(usuario);
+
+        return "Usuario " + username + " ha cerrado sesión.";
     }
 
 }

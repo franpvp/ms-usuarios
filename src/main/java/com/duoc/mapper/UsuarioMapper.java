@@ -19,6 +19,7 @@ public class UsuarioMapper {
                 .apellidoPaterno(usuarioEntity.getApellidoPaterno())
                 .edad(usuarioEntity.getEdad())
                 .fechaNacimiento(usuarioEntity.getFechaNacimiento())
+                .isLoggedIn(usuarioEntity.isLoggedIn())
                 .build();
     }
 
@@ -32,6 +33,7 @@ public class UsuarioMapper {
                 .apellidoPaterno(usuarioDTO.getApellidoPaterno())
                 .edad(usuarioDTO.getEdad())
                 .fechaNacimiento(usuarioDTO.getFechaNacimiento())
+                .isLoggedIn(usuarioDTO.isLoggedIn())
                 .build();
     }
  }

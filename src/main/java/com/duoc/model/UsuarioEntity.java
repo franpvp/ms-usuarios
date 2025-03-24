@@ -42,6 +42,9 @@ public class UsuarioEntity {
     @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
+    @Column(name = "is_logged_in")
+    private boolean isLoggedIn = false;
+
     // Métodos helper para verificar roles
     public boolean isAdmin() {
         return role == UserRole.ADMIN;
