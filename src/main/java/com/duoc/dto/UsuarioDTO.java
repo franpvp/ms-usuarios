@@ -22,7 +22,7 @@ public class UsuarioDTO {
     private Long id;
 
     @NotNull(message = "El campo username no puede estar vacío")
-    @Size(min = 2, max = 20, message = "El campo nombre debe tener entre 2 y 20 caracteres")
+    @Size(min = 2, max = 10, message = "El campo nombre debe tener entre 2 y 10 caracteres")
     private String username;
 
     @NotNull(message = "El campo password no puede estar vacío")
@@ -36,10 +36,12 @@ public class UsuarioDTO {
     private UserRole role;
 
     @NotNull(message = "El campo nombre no puede estar vacío")
-    @Size(min = 6, max = 16, message = "El campo nombre debe tener entre 6 y 16 caracteres")
+    @Size(min = 2, max = 20, message = "El campo nombre debe tener entre 6 y 20 caracteres")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El campo nombre solo puede contener letras")
     private String nombre;
 
     @NotNull(message = "El campo apellidoPaterno no puede estar vacío")
+    @Size(min = 2, max = 20, message = "El campo nombre debe tener entre 2 y 20 caracteres")
     @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El campo apellidoPaterno solo puede contener letras")
     private String apellidoPaterno;
 
