@@ -1,6 +1,7 @@
 package com.duoc.services;
 
 import com.duoc.dto.LoginDTO;
+import com.duoc.dto.LoginResponseDTO;
 import com.duoc.dto.UsuarioDTO;
 import com.duoc.enums.UserRole;
 import com.duoc.exceptions.*;
@@ -10,6 +11,7 @@ import com.duoc.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -103,22 +105,34 @@ public class UsuarioServiceImpl implements UsuarioService{
         return usuarioRepository.existsById(idUsuario);
     }
 
-    public String login(LoginDTO loginDTO) {
-        // Buscar usuario por username
+    public LoginResponseDTO login(LoginDTO loginDTO) {
         UsuarioEntity usuario = usuarioRepository.findByUsername(loginDTO.getUsername())
                 .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado"));
 
-        // Verificar si la contraseña coincide (sin encriptación)
         if (!usuario.getPassword().equals(loginDTO.getPassword())) {
-            throw new PasswordException("Contraseña incorrecta");
+            throw new RuntimeException("Contraseña incorrecta");
         }
 
-        // Actualizar estado de sesión
         usuario.setLoggedIn(true);
         usuarioRepository.save(usuario);
 
-        return "Usuario " + usuario.getUsername() + " ha iniciado sesión exitosamente.";
+        String token = generarTokenSimulado(usuario);
+
+        return new LoginResponseDTO(token, usuario.getUsername(), usuario.getId());
     }
+
+
+
+    private String generarTokenSimulado(UsuarioEntity usuario) {
+        String header = Base64.getEncoder().encodeToString("{\"alg\":\"HS256\",\"typ\":\"JWT\"}".getBytes());
+        String payload = Base64.getEncoder().encodeToString((
+                "{\"sub\":\"" + usuario.getUsername() + "\",\"id\":" + usuario.getId() + "}"
+        ).getBytes());
+        String signature = Base64.getEncoder().encodeToString("mi-secreto".getBytes()); // simulación de firma
+
+        return header + "." + payload + "." + signature;
+    }
+
 
     public String logout(String username) {
         UsuarioEntity usuario = usuarioRepository.findByUsername(username)

@@ -1,6 +1,7 @@
 package com.duoc.controllers;
 
 import com.duoc.dto.LoginDTO;
+import com.duoc.dto.LoginResponseDTO;
 import com.duoc.exceptions.UsuarioNotFoundException;
 import com.duoc.model.UsuarioEntity;
 import com.duoc.repositories.UsuarioRepository;
@@ -19,7 +20,7 @@ public class AuthController {
     private final UsuarioRepository usuarioRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
+    public ResponseEntity<LoginResponseDTO> login(
             @RequestBody LoginDTO loginDTO
     ) {
         return ResponseEntity.ok(usuarioService.login(loginDTO));

@@ -2,6 +2,7 @@ package com.duoc.services;
 
 
 import com.duoc.dto.LoginDTO;
+import com.duoc.dto.LoginResponseDTO;
 import com.duoc.dto.UsuarioDTO;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public interface UsuarioService {
     UsuarioDTO modificarUsuario(UsuarioDTO usuarioDTO);
     void eliminarUsuarioById(Long id);
     boolean usuarioExiste(Long idUsuario);
-    String login(LoginDTO loginDTO);
+    LoginResponseDTO login(LoginDTO loginDTO);
     String logout(String username);
 
 }
