@@ -2,6 +2,7 @@ package com.duoc.controllers;
 
 import com.duoc.dto.LoginDTO;
 import com.duoc.dto.LoginResponseDTO;
+import com.duoc.dto.LogoutResponseDTO;
 import com.duoc.exceptions.UsuarioNotFoundException;
 import com.duoc.model.UsuarioEntity;
 import com.duoc.repositories.UsuarioRepository;
@@ -27,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(
+    public ResponseEntity<LogoutResponseDTO> logout(
             @RequestParam("username") String username
     ) {
         return ResponseEntity.ok(usuarioService.logout(username));

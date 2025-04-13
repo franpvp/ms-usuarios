@@ -2,6 +2,7 @@ package com.duoc.services;
 
 import com.duoc.dto.LoginDTO;
 import com.duoc.dto.LoginResponseDTO;
+import com.duoc.dto.LogoutResponseDTO;
 import com.duoc.dto.UsuarioDTO;
 import com.duoc.enums.UserRole;
 import com.duoc.exceptions.*;
@@ -134,14 +135,15 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
 
-    public String logout(String username) {
+    public LogoutResponseDTO logout(String username) {
         UsuarioEntity usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado"));
 
         usuario.setLoggedIn(false);
         usuarioRepository.save(usuario);
 
-        return "Usuario " + username + " ha cerrado sesión.";
+        String mensaje =  "Usuario " + username + " ha cerrado sesión.";
+        return new LogoutResponseDTO(mensaje);
     }
 
 }
