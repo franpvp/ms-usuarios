@@ -146,4 +146,18 @@ public class UsuarioServiceImpl implements UsuarioService{
         return new LogoutResponseDTO(mensaje);
     }
 
+    @Override
+    public UsuarioDTO cambiarContrasena(String email, String nuevaContrasena) {
+        // Buscar usuario por email
+        UsuarioEntity usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con email: " + email));
+
+        // Actualizar la contraseña
+        usuario.setPassword(nuevaContrasena);
+
+        // Guardar y mapear el usuario actualizado
+        UsuarioEntity usuarioActualizado = usuarioRepository.save(usuario);
+        return usuarioMapper.usuarioEntityToUsuarioDto(usuarioActualizado);
+    }
+
 }

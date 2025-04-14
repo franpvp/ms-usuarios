@@ -1,5 +1,6 @@
 package com.duoc.controllers;
 
+import com.duoc.dto.ActualizarContrasenaDTO;
 import com.duoc.dto.EliminarUsuarioDTO;
 import com.duoc.dto.UsuarioDTO;
 import com.duoc.services.UsuarioService;
@@ -65,6 +66,12 @@ public class UsuarioController {
     public ResponseEntity<Boolean> usuarioExiste(@PathVariable("id-usuario") Long idUsuario) {
         boolean existe = usuarioService.usuarioExiste(idUsuario);
         return ResponseEntity.ok(existe);
+    }
+
+    @PutMapping("/cambiar-contrasena")
+    public ResponseEntity<UsuarioDTO> cambiarContrasena(@RequestBody ActualizarContrasenaDTO dto) {
+        UsuarioDTO usuarioActualizado = usuarioService.cambiarContrasena(dto.getEmail(), dto.getNuevaContrasena());
+        return ResponseEntity.ok(usuarioActualizado);
     }
 
 }

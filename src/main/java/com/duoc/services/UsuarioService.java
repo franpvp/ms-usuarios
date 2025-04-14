@@ -20,5 +20,6 @@ public interface UsuarioService {
     boolean usuarioExiste(Long idUsuario);
     LoginResponseDTO login(LoginDTO loginDTO);
     LogoutResponseDTO logout(String username);
+    UsuarioDTO cambiarContrasena(String email, String nuevaContrasena);
 
 }
