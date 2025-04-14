@@ -119,7 +119,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
         String token = generarTokenSimulado(usuario);
 
-        return new LoginResponseDTO(token, usuario.getUsername(), usuario.getId());
+        return new LoginResponseDTO(token, usuario.getUsername(), usuario.getId(), usuario.getRole().name());
     }
 
 
