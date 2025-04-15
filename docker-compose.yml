@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: spring-gestion-usuarios
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./Wallet_DQXABCOJF1X64NFC:/app/Wallet_DQXABCOJF1X64NFC
+    environment:
+      SPRING_APPLICATION_NAME: Spring-Gestion-Usuarios
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@dqxabcojf1x64nfc_tp?TNS_ADMIN=/app/Wallet_DQXABCOJF1X64NFC
+      SPRING_DATASOURCE_USERNAME: usuario_test
+      SPRING_DATASOURCE_PASSWORD: Usuariotest2025
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: oracle.jdbc.OracleDriver
+      SPRING_SQL_INIT_MODE: never
+      SPRING_DATASOURCE_TYPE: com.zaxxer.hikari.HikariDataSource
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.OracleDialect
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: true
+    networks:
+      - backend
+
+
+networks:
+  backend:
+    external: true
+    name: backend-network
