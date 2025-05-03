@@ -43,7 +43,7 @@ public class UsuarioEntity {
     private Date fechaNacimiento;
 
     @Column(name = "is_logged_in")
-    private boolean isLoggedIn = false;
+    private boolean isLoggedIn;
 
     // Métodos helper para verificar roles
     public boolean isAdmin() {
